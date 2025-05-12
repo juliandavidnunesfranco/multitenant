@@ -1,12 +1,12 @@
 "use server";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { cookies, type UnsafeUnwrappedCookies } from "next/headers";
 import { cache } from "react";
 import { Database } from "@/types/supabase";
 
 export const createServerClient = cache(async () => {
   return createServerComponentClient<Database>({
-    cookies: () => cookies(),
+    cookies: async () => (await cookies() as unknown as UnsafeUnwrappedCookies),
   });
 });
 
@@ -151,7 +151,7 @@ export async function validateTenantAccess(
   tenantSlug: string,
   userId?: string
 ): Promise<{
-  tenant: Database["shared"]["Tables"]["tenants"]["Row"];
+  tenant: Database["public"]["Tables"]["tenants"]["Row"];
   role: string;
 } | null> {
   if (!userId) return null;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+//import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
@@ -10,6 +10,7 @@ import {
   getTenantUrl,
 } from "@/utils/tenant-context";
 import { Database } from "@/types/supabase";
+import { createClient } from "@/supabase/client";
 
 export function TenantProvider({
   children,
@@ -17,10 +18,10 @@ export function TenantProvider({
   initialUser,
 }: {
   children: React.ReactNode;
-  initialTenant?: Database["shared"]["Tables"]["tenants"]["Row"];
+  initialTenant?: Database["public"]["Tables"]["tenants"]["Row"];
   initialUser?: any;
 }) {
-  const supabase = createClientComponentClient<Database>();
+  const supabase = createClient();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [tenant, setTenant] = useState(initialTenant || null);

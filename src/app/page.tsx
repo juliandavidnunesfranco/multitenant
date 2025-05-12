@@ -2,15 +2,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+//import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { getUserTenants } from "@/lib/tenant-server";
 import { getTenantUrl } from "@/utils/tenant-context";
-import { Database } from "@/types/supabase";
+//import { Database } from "@/types/supabase";
 import { Loader2, Plus, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { createClient } from "@/supabase/client";
 
 export default function Home() {
-  const supabase = createClientComponentClient<Database>();
+  const supabase = createClient();
+  //const supabase = createClientComponentClient<Database>();
   const [user, setUser] = useState<any>(null);
   const [tenants, setTenants] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -96,7 +98,7 @@ export default function Home() {
     );
   }
 
-   if (!user) {
+  if (!user) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
         <h1 className="text-4xl font-bold mb-8">

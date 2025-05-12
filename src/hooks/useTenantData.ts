@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+//import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useTenant } from "@/utils/tenant-context";
 import { Database } from "@/types/supabase";
+import { createClient } from "@/supabase/client";
 
 type TableName = keyof Database["public"]["Tables"];
 type QueryOptions = {
@@ -17,7 +18,7 @@ export function useTenantData<T>(
   tableName: TableName | "projects",
   options: QueryOptions = {}
 ) {
-  const supabase = createClientComponentClient<Database>();
+  const supabase = createClient();
   const { tenant } = useTenant();
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
@@ -107,7 +108,7 @@ export function useTenantSubscription(
   tableName: TableName,
   callback: (payload: any) => void
 ) {
-  const supabase = createClientComponentClient<Database>();
+  const supabase = createClient();
   const { tenant } = useTenant();
 
   useEffect(() => {

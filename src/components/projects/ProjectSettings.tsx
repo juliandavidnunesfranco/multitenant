@@ -2,9 +2,9 @@
 "use client";
 
 import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+//import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useTenant } from "@/utils/tenant-context";
-import { Database } from "@/types/supabase";
+//import { Database } from "@/types/supabase";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Loader2, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { createClient } from "@/supabase/client";
 
 interface ProjectSettingsProps {
   project: any;
@@ -29,7 +30,7 @@ export function ProjectSettings({
   onUpdate,
   onDelete,
 }: ProjectSettingsProps) {
-  const supabase = createClientComponentClient<Database>();
+  const supabase = createClient();
   const { tenant, role } = useTenant();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

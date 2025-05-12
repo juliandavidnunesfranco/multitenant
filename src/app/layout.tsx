@@ -1,9 +1,9 @@
 import { Inter } from "next/font/google";
 import { TenantProvider } from "@/components/providers/TenantProvider";
-import { createServerClient, getTenant } from "@/lib/tenant-server";
+import { getTenant } from "@/lib/tenant-server";
 import { headers } from "next/headers";
+import { createClient } from "@/supabase/server";
 import "./globals.css";
-
 
 const GeistSans = Inter({ subsets: ["latin"] });
 export const metadata = {
@@ -16,13 +16,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  
-  const supabase = await createServerClient();
+  const supabase = await createClient();
   const headersList = await headers();
   const hostName = headersList.get("host") || "";
   const tenantSlug = hostName.split(".")[0];
-
-  
 
   // Get current session
   const {

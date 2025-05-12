@@ -1,14 +1,20 @@
-import { createServerClient, validateTenantAccess } from "@/lib/tenant-server";
+import {  validateTenantAccess } from "@/lib/tenant-server";
+import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 
-export default async function TenantLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { site: string };
-}) {
-  const supabase = await createServerClient();
+export default async function TenantLayout(
+  props: {
+    children: React.ReactNode;
+    params: Promise<{ site: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
+  const supabase = await createClient();
 
   const {
     data: { session },
